@@ -1,4 +1,3 @@
-
 let data;
 
 fetch('data.json')
@@ -18,7 +17,7 @@ function mulaAuto() {
 
   recognition.onresult = function(event) {
     const said = event.results[0][0].transcript.toLowerCase();
-    alert("Anda sebut: " + said);
+    alert("Anda sebut: " + said);  // Untuk debug
 
     const result = data.find(item => item.perkataan.toLowerCase() === said);
 
@@ -31,7 +30,7 @@ function mulaAuto() {
       gabungan.lang = 'ms-MY';
 
       gabungan.onend = () => {
-        recognition.start();  // Mula dengar semula selepas habis sebut
+        recognition.start();  // Aktifkan semula selepas sebutan
       };
 
       speechSynthesis.speak(gabungan);
@@ -39,12 +38,12 @@ function mulaAuto() {
       document.getElementById('perkataan').innerText = said;
       document.getElementById('maksud').innerText = 'Perkataan tidak dijumpai dalam senarai.';
       document.getElementById('ayat').innerText = '';
-      recognition.start();  // Teruskan dengar semula walaupun tak jumpa
+      recognition.start();  // Terus dengar semula
     }
   };
 
   recognition.onerror = function() {
-    recognition.start();  // Auto restart jika berlaku ralat
+    recognition.start();  // Auto restart jika ralat
   };
 
   recognition.start();
