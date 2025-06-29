@@ -30,26 +30,17 @@ function mulaAuto() {
       const gabungan = new SpeechSynthesisUtterance("Maksud: " + result.maksud + ". Contoh: " + result.ayat);
       gabungan.lang = 'ms-MY';
 
+      // Gunakan suara Microsoft Rizwan
+      const suara = speechSynthesis.getVoices().find(v => v.name === 'Microsoft Rizwan - Malay (Malaysia)');
+      if (suara) gabungan.voice = suara;
+
       gabungan.onend = () => {
         setTimeout(() => {
           recognition.start();
         }, 1000);
       };
 
-      // Tunggu sehingga suara dimuat sepenuhnya
-      speechSynthesis.onvoiceschanged = () => {
-        const suara = speechSynthesis.getVoices().find(v => v.lang === 'ms-MY' || v.name.toLowerCase().includes("mimi"));
-        if (suara) gabungan.voice = suara;
-        speechSynthesis.speak(gabungan);
-      };
-
-      // Jika suara sudah sedia
-      if (speechSynthesis.getVoices().length > 0) {
-        const suara = speechSynthesis.getVoices().find(v => v.lang === 'ms-MY' || v.name.toLowerCase().includes("mimi"));
-        if (suara) gabungan.voice = suara;
-        speechSynthesis.speak(gabungan);
-      }
-
+      speechSynthesis.speak(gabungan);
     } else {
       document.getElementById('perkataan').innerText = said;
       document.getElementById('maksud').innerText = 'Perkataan tidak dijumpai dalam senarai.';
